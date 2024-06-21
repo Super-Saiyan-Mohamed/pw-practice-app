@@ -1,6 +1,4 @@
 import {expect, test} from '@playwright/test';
-import { ADDRGETNETWORKPARAMS } from 'dns';
-import { delay } from 'rxjs-compat/operator/delay';
 
 test.beforeEach(async ({page}) => {
     await page.goto('http://localhost:4200/');
@@ -25,7 +23,6 @@ test.describe('Form Layout Page', () => {
 
     test('radio buttons', async({page}) => {
         const usingTheGridForm = page.locator('nb-card', {hasText: "Using the Grid"});
-        // await usingTheGridForm.getByLabel('Option 1').check({force: true});
         const radioOption1 = usingTheGridForm.getByRole('radio', {name: "Option 1"});
         await radioOption1.check({force: true});
         let radioStatus1 = await radioOption1.isChecked();
@@ -48,7 +45,7 @@ test ('checkboxes', async({page}) => {
     await page.getByRole('checkbox', {name: "Hide on click"}).uncheck({force: true});
     await page.getByRole('checkbox', {name: "Prevent arising of duplicate toast"}).check({force: true});
 
-    const allBoxes = await await page.getByRole('checkbox');
+    const allBoxes = page.getByRole('checkbox');
     for (const box of await allBoxes.all()){
         await box.uncheck({force: true});
         expect(await box.isChecked()).toBeFalsy();
@@ -170,12 +167,14 @@ test('datepicker', async ({page}) => {
 
 test('sliders', async ({page}) => {
     // Update Attribute
-    const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle');
-    await tempGauge.evaluate( node => {
-        node.setAttribute('cx', '232.630');
-        node.setAttribute('cy', '232.630');
-    });
-    await tempGauge.click();
+
+    
+    // const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle');
+    // await tempGauge.evaluate( node => {
+    //     node.setAttribute('cx', '232.630');
+    //     node.setAttribute('cy', '232.630');
+    // });
+    // await tempGauge.click();
 
     // Mouse Movement
     const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger');
